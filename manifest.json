@@ -1,0 +1,9 @@
+{
+  "name": "Absensi Lokasi Mahasiswa",
+  "short_name": "Absensi",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
+  "icons": []
+}
