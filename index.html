@@ -16,6 +16,13 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
+        transition: background 0.3s ease;
+        opacity: 1;
+        transition: opacity 0.4s ease, background 0.3s ease;
+      }
+
+      .fade {
+        opacity: 0;
       }
 
       .container {
@@ -25,12 +32,14 @@
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         width: 100%;
         max-width: 400px;
+        transition: all 0.3s ease;
       }
 
       h2 {
         text-align: center;
         margin-bottom: 20px;
         color: #333;
+        transition: color 0.3s ease;
       }
 
       input,
@@ -42,6 +51,7 @@
         border-radius: 6px;
         font-size: 16px;
         box-sizing: border-box;
+        transition: all 0.3s ease;
       }
 
       button {
@@ -64,10 +74,52 @@
         border-left: 5px solid #2196f3;
         border-radius: 5px;
         white-space: pre-line;
+        transition: all 0.3s ease;
+      }
+
+      /* Mode wireframe */
+      body.wireframe * {
+        background: none !important;
+        border: 1px solid #aaa !important;
+        color: #333 !important;
+        box-shadow: none !important;
+      }
+
+      body.wireframe input,
+      body.wireframe button {
+        background: #f5f5f5 !important;
+      }
+
+      /* Tombol toggle wireframe */
+      #toggleWireframe {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+
+      #toggleWireframe:hover {
+        background: rgba(0, 0, 0, 0.8);
+        transform: scale(1.1);
       }
     </style>
   </head>
   <body>
+    <!-- Tombol ikon kecil -->
+    <button id="toggleWireframe" title="Toggle Wireframe">📐</button>
+
     <div class="container">
       <h2>Absensi Mahasiswa</h2>
       <form id="absenForm">
@@ -80,6 +132,17 @@
     </div>
 
     <script>
+      // Toggle wireframe mode + ganti ikon dengan efek fade
+      document.getElementById("toggleWireframe").addEventListener("click", function () {
+        document.body.classList.add("fade");
+
+        setTimeout(() => {
+          document.body.classList.toggle("wireframe");
+          this.textContent = document.body.classList.contains("wireframe") ? "🎨" : "📐";
+          document.body.classList.remove("fade");
+        }, 300); // jeda 0.3 detik untuk transisi
+      });
+
       const firebaseConfig = {
         apiKey: "AIzaSyDRhRh1eO821Wf38j5lVEsk1fPUMbso2xM",
         authDomain: "absensi-dcae9.firebaseapp.com",
@@ -94,9 +157,9 @@
       firebase.initializeApp(firebaseConfig);
       const db = firebase.database();
 
-    const kampusLat = -6.231348;
-    const kampusLng = 101.614758;
-    const radiusMaks = 15;
+      const kampusLat = -6.228407;
+      const kampusLng = 106.61652;
+      const radiusMaks = 15;
 
       function hitungJarak(lat1, lon1, lat2, lon2) {
         const R = 6371000;
